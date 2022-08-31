@@ -1,0 +1,15 @@
+.posts {
+	&__header,
+	&__switchers {
+		display: flex;
+		align-items: center;
+		padding: 0 24px;
+	}
+	&__header {
+		justify-content: space-between;
+		margin-bottom: 12px;
+	}
+
+	&__switchers {
+	}
+}

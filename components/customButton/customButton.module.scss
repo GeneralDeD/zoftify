@@ -1,0 +1,10 @@
+$blue: #177eff;
+$white: #fff;
+
+.customButton {
+	color: $white;
+	background-color: $blue;
+	padding: 10px 12px;
+	border-radius: 8px;
+	cursor: pointer;
+}

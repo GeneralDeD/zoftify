@@ -1,0 +1,9 @@
+$white: #fff;
+
+.container {
+	width: calc(100% - 40px);
+	margin: 16px auto;
+	padding: 16px 0;
+	border-radius: 8px;
+	background-color: $white;
+}

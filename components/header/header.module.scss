@@ -1,0 +1,15 @@
+$white: #fff;
+$gray: #ebeef6;
+$sec_blue: #f5f6fa;
+$blue: #d7defa;
+
+.header {
+	width: 100%;
+	height: 48px;
+	background-color: $white;
+	display: flex;
+	align-items: center;
+	padding: 12px 20px;
+	font-size: 18px;
+	line-height: 24px;
+}
