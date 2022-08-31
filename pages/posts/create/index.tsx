@@ -12,7 +12,7 @@ import { createPost } from '../../../store/reducers/postsSlice';
 import st from './createPost.module.scss';
 
 export default function CreatePost() {
-	const posts = useAppSelector((state) => state.posts.data),
+	const { posts } = useAppSelector((state) => state),
 		router = useRouter(),
 		dispatch = useAppDispatch(),
 		[data, setData] = useState<IPostItem>({

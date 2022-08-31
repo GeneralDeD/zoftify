@@ -10,17 +10,16 @@ import CustomTable from '../../components/customTable';
 import { wrapper } from '../../store/store';
 import st from './posts.module.scss';
 import { IPostItem } from '../../models/IPost';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import CustomStatus from '../../components/customStatus';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setPostStatus } from '../../store/reducers/postsSlice';
 import Header from '../../components/header';
 TimeAgo.addDefaultLocale(en);
 
 interface IPosts {
-	data: IPostItem[];
 	counts: {
 		draft: number;
 		published: number;
@@ -31,30 +30,87 @@ interface IPosts {
 	limit: number;
 }
 
-export default function Posts({ data, status, search, counts, page, limit }: IPosts) {
+export default function Posts({ status, search, counts, page, limit }: IPosts) {
 	const router = useRouter(),
 		dispatch = useAppDispatch(),
+		data = useAppSelector((state) => state.posts),
+		[posts, setPosts] = useState<IPostItem[]>(data),
 		[searchInput, setSearchInput] = useState(search),
 		switchers = [
 			{
 				id: '',
 				title: 'All statuses',
-				count: counts.draft + counts.published,
+				// count: counts.draft + counts.published,
+				count: 20,
 			},
 			{
 				id: 'draft',
 				title: 'Draft',
-				count: counts.draft,
+				// count: counts.draft,
+				count: 20,
 			},
 			{
 				id: 'published',
 				title: 'Published',
-				count: counts.published,
+				// count: counts.published,
+				count: 20,
 			},
 		],
 		limits = [5, 10, 15];
 
 	const timeAgo = new TimeAgo('en-US');
+
+	useEffect(() => {
+		type ICounts = {
+			[key: string]: number;
+		};
+
+		const counts: ICounts = {
+			draft: 0,
+			published: 0,
+		};
+
+		const incCount = () => {
+			data.forEach((item) => counts[item.status]++);
+		};
+
+		console.log(posts, status);
+
+		if (search && status) {
+			setPosts(data.filter((item) => item.title?.includes(search.toString()) && ++counts[item.status]));
+
+			switch (status) {
+				case 'draft': {
+					setPosts(data.filter((item) => item.status === 'draft'));
+					break;
+				}
+				case 'published': {
+					setPosts(data.filter((item) => item.status === 'published'));
+					break;
+				}
+			}
+		} else if (search) {
+			setPosts(data.filter((item) => item.title?.includes(search.toString()) && ++counts[item.status]));
+		} else if (status) {
+			incCount();
+
+			console.log('yes');
+
+			switch (status) {
+				case 'draft': {
+					setPosts(data.filter((item) => item.status === 'draft'));
+					break;
+				}
+				case 'published': {
+					setPosts(data.filter((item) => item.status === 'published'));
+					break;
+				}
+			}
+		} else {
+			incCount();
+			setPosts(data);
+		}
+	}, [status, search]);
 
 	const handleChange = (key: string, value: string) => {
 		const query = router.query;
@@ -118,7 +174,7 @@ export default function Posts({ data, status, search, counts, page, limit }: IPo
 								</tr>
 							</thead>
 							<tbody>
-								{data.map((item) => (
+								{posts.map((item) => (
 									<tr key={item.id}>
 										<td>{item.id}</td>
 										<td>{item.title}</td>
@@ -140,12 +196,12 @@ export default function Posts({ data, status, search, counts, page, limit }: IPo
 							options={limits}
 							handleChange={(e) => handleChange('limit', `${e}`)}
 						/>
-						<CustomPagination
+						{/* <CustomPagination
 							current={page}
 							limit={limit}
 							total={status ? 2 : counts.draft + counts.published}
 							handleChange={(e) => handleChange('page', `${e}`)}
-						/>
+						/> */}
 					</div>
 				</div>
 			</Container>
@@ -154,56 +210,10 @@ export default function Posts({ data, status, search, counts, page, limit }: IPo
 }
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
-	let { data } = store.getState().posts;
 	const { search, status, page = 1, limit = 5 } = ctx.query;
-
-	type ICounts = {
-		[key: string]: number;
-	};
-
-	const counts: ICounts = {
-		draft: 0,
-		published: 0,
-	};
-
-	const incCount = () => {
-		data.forEach((item) => counts[item.status]++);
-	};
-
-	if (search && status) {
-		data = data.filter((item) => item.title?.includes(search.toString()) && ++counts[item.status]);
-
-		switch (status) {
-			case 'draft': {
-				data = data.filter((item) => item.status === 'draft');
-				break;
-			}
-			case 'published': {
-				data = data.filter((item) => item.status === 'published');
-				break;
-			}
-		}
-	} else if (search) {
-		data = data.filter((item) => item.title?.includes(search.toString()) && ++counts[item.status]);
-	} else if (status) {
-		incCount();
-
-		switch (status) {
-			case 'draft': {
-				data = data.filter((item) => item.status === 'draft');
-				break;
-			}
-			case 'published': {
-				data = data.filter((item) => item.status === 'published');
-				break;
-			}
-		}
-	} else incCount();
 
 	return {
 		props: {
-			data: data.slice((+page - 1) * +limit, +page * +limit),
-			counts,
 			status: status || '',
 			search: search || '',
 			page,
@@ -211,6 +221,67 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
 		},
 	};
 });
+
+// export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
+// 	let { posts } = store.getState();
+// 	const { search, status, page = 1, limit = 5 } = ctx.query;
+
+// 	console.log(posts);
+
+// 	type ICounts = {
+// 		[key: string]: number;
+// 	};
+
+// 	const counts: ICounts = {
+// 		draft: 0,
+// 		published: 0,
+// 	};
+
+// 	const incCount = () => {
+// 		posts.forEach((item) => counts[item.status]++);
+// 	};
+
+// 	if (search && status) {
+// 		posts = posts.filter((item) => item.title?.includes(search.toString()) && ++counts[item.status]);
+
+// 		switch (status) {
+// 			case 'draft': {
+// 				posts = posts.filter((item) => item.status === 'draft');
+// 				break;
+// 			}
+// 			case 'published': {
+// 				posts = posts.filter((item) => item.status === 'published');
+// 				break;
+// 			}
+// 		}
+// 	} else if (search) {
+// 		posts = posts.filter((item) => item.title?.includes(search.toString()) && ++counts[item.status]);
+// 	} else if (status) {
+// 		incCount();
+
+// 		switch (status) {
+// 			case 'draft': {
+// 				posts = posts.filter((item) => item.status === 'draft');
+// 				break;
+// 			}
+// 			case 'published': {
+// 				posts = posts.filter((item) => item.status === 'published');
+// 				break;
+// 			}
+// 		}
+// 	} else incCount();
+
+// 	return {
+// 		props: {
+// 			posts: posts.slice((+page - 1) * +limit, +page * +limit),
+// 			counts,
+// 			status: status || '',
+// 			search: search || '',
+// 			page,
+// 			limit,
+// 		},
+// 	};
+// });
 
 const objToQuery = (obj: any) => {
 	let str = [];
