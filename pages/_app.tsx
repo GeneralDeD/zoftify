@@ -11,7 +11,6 @@ function App({ Component, pageProps }: AppProps) {
 			<div className="app">
 				<Sidebar />
 				<div className="content">
-					<Header />
 					<Component {...pageProps} />
 				</div>
 			</div>

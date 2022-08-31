@@ -1,10 +1,12 @@
 @import '~antd/dist/antd.css';
 
 $white: #fff;
+$black: #111;
 $light_gray: #f5f5f5;
 $gray_line: #ebeef6;
 $sec_blue: #f5f6fa;
 $blue: #d7defa;
+$dark_blue: #177eff;
 $placeholder: #667281;
 
 html,
@@ -80,6 +82,87 @@ button {
 					height: 15px;
 				}
 			}
+		}
+	}
+}
+
+.customPagination {
+	.ant-pagination {
+		display: flex;
+		align-items: center;
+
+		button {
+			background-color: $sec_blue !important;
+			border: none;
+			border-radius: 4px;
+		}
+
+		.ant-pagination-item {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 32px;
+			height: 32px;
+			border: none;
+			border-radius: 4px;
+
+			a {
+				color: $placeholder;
+			}
+		}
+
+		.ant-pagination-item-active {
+			background-color: $dark_blue;
+
+			a {
+				width: 32px;
+				height: 32px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: $white;
+			}
+		}
+	}
+}
+
+.customSelect {
+	display: flex;
+	align-items: center;
+
+	.ant-select {
+		width: 65px;
+		margin-right: 12px;
+
+		.ant-select-selector {
+			height: 36px;
+			border-radius: 4px;
+			padding: 0 12px;
+			background-color: $sec_blue;
+			border: none;
+
+			span {
+				color: $black;
+				display: flex;
+				align-items: center;
+			}
+		}
+	}
+
+	div {
+		font-size: 13px;
+		color: $placeholder;
+	}
+}
+
+.customStatus {
+	.ant-select {
+		width: 108px;
+
+		.ant-select-selector {
+			border: none;
+			padding: 0;
+			padding-left: 10px;
 		}
 	}
 }

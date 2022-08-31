@@ -8,7 +8,7 @@ interface ICustomButton {
 
 export default function CustomButton({ title, width, handleClick }: ICustomButton) {
 	return (
-		<button className={st.customButton} style={{ width: `${width}px` }} onClick={() => handleClick}>
+		<button className={st.customButton} style={{ width: `${width}px` }} onClick={handleClick}>
 			{title}
 		</button>
 	);

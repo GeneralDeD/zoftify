@@ -1,4 +1,4 @@
-$blue: #177eff;
+$dark_blue: #177eff;
 $sec_blue: #f5f6fa;
 $light_blue: #70aefd;
 $icon_tert: #b2c2df;
@@ -27,7 +27,7 @@ $black: #111;
 
 	&__active {
 		color: $white;
-		background-color: $blue;
+		background-color: $dark_blue;
 
 		.customSwitcher__count {
 			background-color: $light_blue;

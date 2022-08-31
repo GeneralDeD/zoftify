@@ -1,23 +1,24 @@
-import { AudioOutlined } from '@ant-design/icons';
-import { Input, Space } from 'antd';
+import { Input } from 'antd';
 import React from 'react';
 
 const { Search } = Input;
 
-const suffix = (
-	<AudioOutlined
-		style={{
-			fontSize: 16,
-			color: '#1890ff',
-		}}
-	/>
-);
+interface ICustomSearch {
+	search: string;
+	handleChange: () => void;
+	setSearch: (e: string) => void;
+}
 
-const onSearch = (value: string) => console.log(value);
-
-const CustomSearch: React.FC = () => (
+const CustomSearch: React.FC<ICustomSearch> = ({ search, setSearch, handleChange }) => (
 	<div className="customSearch">
-		<Search placeholder="Search" allowClear onSearch={onSearch} style={{ width: 200 }} />
+		<Search
+			placeholder="Search"
+			value={search}
+			onChange={(e) => setSearch(e.target.value)}
+			allowClear
+			onSearch={handleChange}
+			style={{ width: 200 }}
+		/>
 	</div>
 );
 

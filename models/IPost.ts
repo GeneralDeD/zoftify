@@ -1,7 +1,8 @@
 export interface IPostItem {
+	id: number;
 	title: string | null;
-	status: string | null;
-	date: Date | null;
+	status: string;
+	date: string;
 }
 
 export interface IPost {
