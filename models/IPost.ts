@@ -1,6 +1,6 @@
 export interface IPostItem {
 	id: number;
-	title: string | null;
+	title: string;
 	status: string;
 	date: string;
 }
