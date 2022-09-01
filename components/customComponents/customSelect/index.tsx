@@ -6,9 +6,12 @@ interface ICustomSelect {
 	value: number;
 	options: number[];
 	handleChange: (e: number) => void;
+	page: number;
+	limit: number;
+	total: number;
 }
 
-const CustomSelect: React.FC<ICustomSelect> = ({ value, options, handleChange }) => {
+const CustomSelect: React.FC<ICustomSelect> = ({ value, options, page, limit, total, handleChange }) => {
 	return (
 		<div className="customSelect">
 			<Select
@@ -32,7 +35,9 @@ const CustomSelect: React.FC<ICustomSelect> = ({ value, options, handleChange })
 					</Option>
 				))}
 			</Select>
-			<div>Showing 1 - 5 of 20</div>
+			<div>
+				Showing {(page - 1) * limit + 1} - {page * limit > total ? total : page * limit} of {total}
+			</div>
 		</div>
 	);
 };

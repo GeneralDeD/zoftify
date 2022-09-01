@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Container from '../../../components/container';
-import CustomButton from '../../../components/customButton';
+import CustomButton from '../../../components/customComponents/customButton';
 import CustomDatePicker from '../../../components/customComponents/customDatePicker';
 import CustomFormStatusSelect from '../../../components/customComponents/customFormStatusSelect';
 import CustomInput from '../../../components/customComponents/customInput';
@@ -57,11 +57,7 @@ export default function CreatePost() {
 							setValue={(e) => handleChange('title', e)}
 							isErr={isErr.title}
 						/>
-						<CustomFormStatusSelect
-							isErr={isErr.status}
-							value={data.status}
-							handleChange={(e) => handleChange('status', e)}
-						/>
+						<CustomFormStatusSelect isErr={isErr.status} handleChange={(e) => handleChange('status', e)} />
 						<CustomDatePicker
 							isErr={isErr.date}
 							handleChange={(e) => {

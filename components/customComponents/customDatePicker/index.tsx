@@ -1,10 +1,5 @@
-import type { DatePickerProps } from 'antd';
 import { DatePicker } from 'antd';
 import React from 'react';
-
-// const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-// 	console.log(date, dateString);
-// };
 
 interface ICustomDatePicker {
 	isErr: boolean;

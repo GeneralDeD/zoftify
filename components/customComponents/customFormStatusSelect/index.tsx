@@ -4,11 +4,10 @@ const { Option } = Select;
 
 interface ICustomFormStatusSelect {
 	isErr: boolean;
-	value: string;
 	handleChange: (e: string) => void;
 }
 
-export default function CustomFormStatusSelect({ isErr, value, handleChange }: ICustomFormStatusSelect) {
+export default function CustomFormStatusSelect({ isErr, handleChange }: ICustomFormStatusSelect) {
 	return (
 		<div className={`customFormStatusSelect ${isErr && 'customFormStatusSelect__isErr'}`}>
 			<Select
@@ -27,7 +26,6 @@ export default function CustomFormStatusSelect({ isErr, value, handleChange }: I
 						/>
 					</svg>
 				}>
-				{/* <Option value="draft">St</Option> */}
 				<Option value="draft">Draft</Option>
 				<Option value="published">Published</Option>
 			</Select>

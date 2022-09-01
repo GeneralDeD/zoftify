@@ -1,19 +1,19 @@
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import Container from '../../components/container';
-import CustomButton from '../../components/customButton';
-import CustomPagination from '../../components/customPagination';
-import CustomSearch from '../../components/customSearch';
-import CustomSelect from '../../components/customSelect';
-import CustomSwitcher from '../../components/customSwitcher';
-import CustomTable from '../../components/customTable';
+import CustomButton from '../../components/customComponents/customButton';
+import CustomPagination from '../../components/customComponents/customPagination';
+import CustomSearch from '../../components/customComponents/customSearch';
+import CustomSelect from '../../components/customComponents/customSelect';
+import CustomSwitcher from '../../components/customComponents/customSwitcher';
+import CustomTable from '../../components/customComponents/customTable';
+import CustomStatus from '../../components/customComponents/customStatus';
 import { wrapper } from '../../store/store';
 import st from './posts.module.scss';
 import { IPost } from '../../models/IPost';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
-import CustomStatus from '../../components/customStatus';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setPostStatus } from '../../store/reducers/postsSlice';
 import Header from '../../components/header';
@@ -139,6 +139,9 @@ export default function Posts({ status, search, page, limit }: IPosts) {
 					<div className={st.posts__footer}>
 						<CustomSelect
 							value={limit}
+							page={page}
+							limit={limit}
+							total={status ? allData.counts[status] : allData.counts.draft + allData.counts.published}
 							options={limits}
 							handleChange={(e) => handleChange('limit', `${e}`)}
 						/>
