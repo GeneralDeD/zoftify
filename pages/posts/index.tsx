@@ -19,6 +19,11 @@ import { setPostStatus } from '../../store/reducers/postsSlice';
 import Header from '../../components/header';
 import { useFilterData } from '../../hooks/filter';
 TimeAgo.addDefaultLocale(en);
+const timeAgo = new TimeAgo('en-US');
+
+export type ICounts = {
+	[key: string]: number;
+};
 
 interface IPosts {
 	status: string;
@@ -27,46 +32,37 @@ interface IPosts {
 	limit: number;
 }
 
-export type ICounts = {
-	[key: string]: number;
-};
+export interface IAllData {
+	posts: IPost[];
+	counts: ICounts;
+}
 
 export default function Posts({ status, search, page, limit }: IPosts) {
 	const router = useRouter(),
 		dispatch = useAppDispatch(),
 		data = useAppSelector((state) => state.posts),
-		[posts, setPosts] = useState<IPost[]>(data),
+		[allData, setAllData] = useState<IAllData>({ posts: data, counts: { draft: 0, published: 0 } }),
 		[searchInput, setSearchInput] = useState(search),
-		[counts, setCounts] = useState<ICounts>({
-			draft: 0,
-			published: 0,
-		}),
 		switchers = [
 			{
 				id: '',
 				title: 'All statuses',
-				count: counts.draft + counts.published,
+				count: allData.counts.draft + allData.counts.published,
 			},
 			{
 				id: 'draft',
 				title: 'Draft',
-				count: counts.draft,
+				count: allData.counts.draft,
 			},
 			{
 				id: 'published',
 				title: 'Published',
-				count: counts.published,
+				count: allData.counts.published,
 			},
 		],
 		limits = [5, 10, 15];
 
-	const timeAgo = new TimeAgo('en-US');
-
-	useEffect(() => {
-		const result = useFilterData({ data, search, status, page, limit });
-		setPosts(result.data);
-		setCounts(result.counts);
-	}, [status, search, page, limit, data]);
+	useFilterData({ data, search, status, page, limit, setAllData });
 
 	const handleChange = (key: string, value: string) => {
 		const query = router.query;
@@ -122,7 +118,7 @@ export default function Posts({ status, search, page, limit }: IPosts) {
 								</tr>
 							</thead>
 							<tbody>
-								{posts.map((item) => (
+								{allData.posts.map((item) => (
 									<tr key={item.id}>
 										<td>{item.id}</td>
 										<td>{item.title}</td>
@@ -149,7 +145,7 @@ export default function Posts({ status, search, page, limit }: IPosts) {
 						<CustomPagination
 							current={page}
 							limit={limit}
-							total={status ? counts[status] : counts.draft + counts.published}
+							total={status ? allData.counts[status] : allData.counts.draft + allData.counts.published}
 							handleChange={(e) => handleChange('page', `${e}`)}
 						/>
 					</div>
