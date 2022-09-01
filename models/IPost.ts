@@ -1,10 +1,6 @@
-export interface IPostItem {
+export interface IPost {
 	id: number;
 	title: string;
 	status: string;
 	date: string;
-}
-
-export interface IPost {
-	data: IPostItem[];
 }

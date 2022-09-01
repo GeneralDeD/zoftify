@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Container from '../../../components/container';
 import CustomButton from '../../../components/customButton';
 import CustomDatePicker from '../../../components/customComponents/customDatePicker';
@@ -7,7 +7,7 @@ import CustomFormStatusSelect from '../../../components/customComponents/customF
 import CustomInput from '../../../components/customComponents/customInput';
 import Header from '../../../components/header';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { IPostItem } from '../../../models/IPost';
+import { IPost } from '../../../models/IPost';
 import { createPost } from '../../../store/reducers/postsSlice';
 import st from './createPost.module.scss';
 
@@ -15,7 +15,7 @@ export default function CreatePost() {
 	const { posts } = useAppSelector((state) => state),
 		router = useRouter(),
 		dispatch = useAppDispatch(),
-		[data, setData] = useState<IPostItem>({
+		[data, setData] = useState<IPost>({
 			id: posts.length + 1,
 			title: '',
 			date: '',
@@ -27,10 +27,6 @@ export default function CreatePost() {
 			status: false,
 		},
 		[isErr, setIsErr] = useState(defState);
-
-	useEffect(() => {
-		console.log(data);
-	}, [data]);
 
 	const handleChange = (key: string, value: string) => {
 		setData((prev) => ({ ...prev, [key]: value }));

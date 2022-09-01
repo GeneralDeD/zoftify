@@ -9,7 +9,7 @@ import CustomSwitcher from '../../components/customSwitcher';
 import CustomTable from '../../components/customTable';
 import { wrapper } from '../../store/store';
 import st from './posts.module.scss';
-import { IPostItem } from '../../models/IPost';
+import { IPost } from '../../models/IPost';
 import { useEffect, useState } from 'react';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
@@ -17,43 +17,45 @@ import CustomStatus from '../../components/customStatus';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setPostStatus } from '../../store/reducers/postsSlice';
 import Header from '../../components/header';
+import { useFilterData } from '../../hooks/filter';
 TimeAgo.addDefaultLocale(en);
 
 interface IPosts {
-	counts: {
-		draft: number;
-		published: number;
-	};
 	status: string;
 	search: string;
 	page: number;
 	limit: number;
 }
 
-export default function Posts({ status, search, counts, page, limit }: IPosts) {
+export type ICounts = {
+	[key: string]: number;
+};
+
+export default function Posts({ status, search, page, limit }: IPosts) {
 	const router = useRouter(),
 		dispatch = useAppDispatch(),
 		data = useAppSelector((state) => state.posts),
-		[posts, setPosts] = useState<IPostItem[]>(data),
+		[posts, setPosts] = useState<IPost[]>(data),
 		[searchInput, setSearchInput] = useState(search),
+		[counts, setCounts] = useState<ICounts>({
+			draft: 0,
+			published: 0,
+		}),
 		switchers = [
 			{
 				id: '',
 				title: 'All statuses',
-				// count: counts.draft + counts.published,
-				count: 20,
+				count: counts.draft + counts.published,
 			},
 			{
 				id: 'draft',
 				title: 'Draft',
-				// count: counts.draft,
-				count: 20,
+				count: counts.draft,
 			},
 			{
 				id: 'published',
 				title: 'Published',
-				// count: counts.published,
-				count: 20,
+				count: counts.published,
 			},
 		],
 		limits = [5, 10, 15];
@@ -61,56 +63,10 @@ export default function Posts({ status, search, counts, page, limit }: IPosts) {
 	const timeAgo = new TimeAgo('en-US');
 
 	useEffect(() => {
-		type ICounts = {
-			[key: string]: number;
-		};
-
-		const counts: ICounts = {
-			draft: 0,
-			published: 0,
-		};
-
-		const incCount = () => {
-			data.forEach((item) => counts[item.status]++);
-		};
-
-		console.log(posts, status);
-
-		if (search && status) {
-			setPosts(data.filter((item) => item.title?.includes(search.toString()) && ++counts[item.status]));
-
-			switch (status) {
-				case 'draft': {
-					setPosts(data.filter((item) => item.status === 'draft'));
-					break;
-				}
-				case 'published': {
-					setPosts(data.filter((item) => item.status === 'published'));
-					break;
-				}
-			}
-		} else if (search) {
-			setPosts(data.filter((item) => item.title?.includes(search.toString()) && ++counts[item.status]));
-		} else if (status) {
-			incCount();
-
-			console.log('yes');
-
-			switch (status) {
-				case 'draft': {
-					setPosts(data.filter((item) => item.status === 'draft'));
-					break;
-				}
-				case 'published': {
-					setPosts(data.filter((item) => item.status === 'published'));
-					break;
-				}
-			}
-		} else {
-			incCount();
-			setPosts(data);
-		}
-	}, [status, search]);
+		const result = useFilterData({ data, search, status, page, limit });
+		setPosts(result.data);
+		setCounts(result.counts);
+	}, [status, search, page, limit, data]);
 
 	const handleChange = (key: string, value: string) => {
 		const query = router.query;
@@ -119,14 +75,6 @@ export default function Posts({ status, search, counts, page, limit }: IPosts) {
 		if (value) {
 			query[key] = value;
 		}
-
-		const routerQuery = objToQuery(query);
-
-		router.push(`${router.pathname}${routerQuery && `?${routerQuery}`}`);
-	};
-
-	const renderPage = () => {
-		const query = router.query;
 
 		const routerQuery = objToQuery(query);
 
@@ -182,7 +130,9 @@ export default function Posts({ status, search, counts, page, limit }: IPosts) {
 										<td>
 											<CustomStatus
 												value={item.status}
-												handleChange={(e) => dispatch(setPostStatus({ value: e, id: item.id }))}
+												handleChange={(e) => {
+													dispatch(setPostStatus({ value: e, id: item.id }));
+												}}
 											/>
 										</td>
 									</tr>
@@ -196,12 +146,12 @@ export default function Posts({ status, search, counts, page, limit }: IPosts) {
 							options={limits}
 							handleChange={(e) => handleChange('limit', `${e}`)}
 						/>
-						{/* <CustomPagination
+						<CustomPagination
 							current={page}
 							limit={limit}
-							total={status ? 2 : counts.draft + counts.published}
+							total={status ? counts[status] : counts.draft + counts.published}
 							handleChange={(e) => handleChange('page', `${e}`)}
-						/> */}
+						/>
 					</div>
 				</div>
 			</Container>
@@ -221,67 +171,6 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
 		},
 	};
 });
-
-// export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
-// 	let { posts } = store.getState();
-// 	const { search, status, page = 1, limit = 5 } = ctx.query;
-
-// 	console.log(posts);
-
-// 	type ICounts = {
-// 		[key: string]: number;
-// 	};
-
-// 	const counts: ICounts = {
-// 		draft: 0,
-// 		published: 0,
-// 	};
-
-// 	const incCount = () => {
-// 		posts.forEach((item) => counts[item.status]++);
-// 	};
-
-// 	if (search && status) {
-// 		posts = posts.filter((item) => item.title?.includes(search.toString()) && ++counts[item.status]);
-
-// 		switch (status) {
-// 			case 'draft': {
-// 				posts = posts.filter((item) => item.status === 'draft');
-// 				break;
-// 			}
-// 			case 'published': {
-// 				posts = posts.filter((item) => item.status === 'published');
-// 				break;
-// 			}
-// 		}
-// 	} else if (search) {
-// 		posts = posts.filter((item) => item.title?.includes(search.toString()) && ++counts[item.status]);
-// 	} else if (status) {
-// 		incCount();
-
-// 		switch (status) {
-// 			case 'draft': {
-// 				posts = posts.filter((item) => item.status === 'draft');
-// 				break;
-// 			}
-// 			case 'published': {
-// 				posts = posts.filter((item) => item.status === 'published');
-// 				break;
-// 			}
-// 		}
-// 	} else incCount();
-
-// 	return {
-// 		props: {
-// 			posts: posts.slice((+page - 1) * +limit, +page * +limit),
-// 			counts,
-// 			status: status || '',
-// 			search: search || '',
-// 			page,
-// 			limit,
-// 		},
-// 	};
-// });
 
 const objToQuery = (obj: any) => {
 	let str = [];
