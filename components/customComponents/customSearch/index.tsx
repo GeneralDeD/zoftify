@@ -17,7 +17,6 @@ const CustomSearch: React.FC<ICustomSearch> = ({ search, setSearch, handleChange
 			onChange={(e) => setSearch(e.target.value)}
 			allowClear
 			onSearch={handleChange}
-			style={{ width: 200 }}
 		/>
 	</div>
 );

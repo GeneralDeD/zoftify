@@ -33,4 +33,10 @@ $black: #111;
 			background-color: $light_blue;
 		}
 	}
+
+	@media (max-width: 660px) {
+		width: 48%;
+		margin-bottom: 8px;
+		margin-right: 0;
+	}
 }

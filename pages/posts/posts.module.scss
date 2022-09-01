@@ -5,6 +5,7 @@
 		display: flex;
 		align-items: center;
 		padding: 0 24px;
+		flex-wrap: wrap;
 	}
 
 	&__header,
@@ -18,5 +19,11 @@
 
 	&__footer {
 		margin-top: 40px;
+	}
+
+	@media (max-width: 660px) {
+		&__switchers {
+			justify-content: space-between;
+		}
 	}
 }
