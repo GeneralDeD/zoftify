@@ -1,9 +1,12 @@
-import st from './customTable.module.scss';
+import { FC } from "react";
+import st from "./customTable.module.scss";
 
 interface ICustomTable {
 	children: JSX.Element;
 }
 
-export default function CustomTable({ children }: ICustomTable) {
+const CustomTable: FC<ICustomTable> = ({ children }) => {
 	return <div className={st.customTable}>{children}</div>;
-}
+};
+
+export default CustomTable;

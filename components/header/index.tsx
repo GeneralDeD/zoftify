@@ -1,5 +1,6 @@
-import BackBtn from '../backBtn';
-import st from './header.module.scss';
+import { FC } from "react";
+import BackBtn from "../backBtn";
+import st from "./header.module.scss";
 
 interface IHeader {
 	title: string;
@@ -7,11 +8,13 @@ interface IHeader {
 	link?: string;
 }
 
-export default function Header({ title, hasBackBtn, link }: IHeader) {
+const Header: FC<IHeader> = ({ title, hasBackBtn, link }) => {
 	return (
 		<div className={st.header}>
-			{hasBackBtn && <BackBtn link={link || ''} />}
+			{hasBackBtn && <BackBtn link={link || ""} />}
 			{title}
 		</div>
 	);
-}
+};
+
+export default Header;

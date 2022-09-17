@@ -1,5 +1,6 @@
-import Link from 'next/link';
-import st from './sidebar.module.scss';
+import Link from "next/link";
+import { FC } from "react";
+import st from "./sidebar.module.scss";
 
 const logo = (
 		<svg width="78" height="18" viewBox="0 0 78 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,10 +43,16 @@ const logo = (
 	),
 	menu = [
 		{
-			title: 'Posts',
-			link: '/posts',
+			title: "Posts",
+			link: "/posts",
 			svg: (
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<svg
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
 					<path
 						opacity="0.4"
 						d="M22 16.5V19.5C22 21 21 22 19.5 22H6C6.41 22 6.83 21.94 7.22 21.81C7.33 21.77 7.43999 21.73 7.54999 21.68C7.89999 21.54 8.24001 21.34 8.54001 21.08C8.63001 21.01 8.73001 20.92 8.82001 20.83L8.85999 20.79L15.66 14H19.5C21 14 22 15 22 16.5Z"
@@ -65,7 +72,7 @@ const logo = (
 		},
 	];
 
-export default function Sidebar() {
+const Sidebar: FC = () => {
 	return (
 		<div className={st.sidebar}>
 			<div className={st.sidebar__logo}>{logo}</div>
@@ -83,4 +90,6 @@ export default function Sidebar() {
 			</ul>
 		</div>
 	);
-}
+};
+
+export default Sidebar;

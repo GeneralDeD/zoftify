@@ -1,5 +1,5 @@
-import React from 'react';
-import { Pagination } from 'antd';
+import { FC } from "react";
+import { Pagination } from "antd";
 
 interface ICustomPagination {
 	current: number;
@@ -8,10 +8,15 @@ interface ICustomPagination {
 	handleChange: (e: string) => void;
 }
 
-const CustomPagination: React.FC<ICustomPagination> = ({ current, limit, total, handleChange }) => {
+const CustomPagination: FC<ICustomPagination> = ({ current, limit, total, handleChange }) => {
 	return (
 		<div className="customPagination">
-			<Pagination current={+current} onChange={(e) => handleChange(`${e}`)} pageSize={limit} total={total} />
+			<Pagination
+				current={+current}
+				onChange={(e) => handleChange(`${e}`)}
+				pageSize={limit}
+				total={total}
+			/>
 		</div>
 	);
 };

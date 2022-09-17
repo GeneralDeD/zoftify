@@ -1,5 +1,5 @@
-import { Input } from 'antd';
-import React from 'react';
+import { Input } from "antd";
+import { FC } from "react";
 
 const { Search } = Input;
 
@@ -9,7 +9,7 @@ interface ICustomSearch {
 	setSearch: (e: string) => void;
 }
 
-const CustomSearch: React.FC<ICustomSearch> = ({ search, setSearch, handleChange }) => (
+const CustomSearch: FC<ICustomSearch> = ({ search, setSearch, handleChange }) => (
 	<div className="customSearch">
 		<Search
 			placeholder="Search"

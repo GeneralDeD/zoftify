@@ -1,4 +1,5 @@
-import st from './customInput.module.scss';
+import { FC } from "react";
+import st from "./customInput.module.scss";
 
 interface ICustomInput {
 	isErr: boolean;
@@ -7,7 +8,7 @@ interface ICustomInput {
 	setValue: (e: string) => void;
 }
 
-export default function CustomInput({ isErr, placeholder, value, setValue }: ICustomInput) {
+const CustomInput: FC<ICustomInput> = ({ isErr, placeholder, value, setValue }) => {
 	return (
 		<input
 			className={`${st.customInput} ${isErr && st.customInput__isErr}`}
@@ -17,4 +18,6 @@ export default function CustomInput({ isErr, placeholder, value, setValue }: ICu
 			required={true}
 		/>
 	);
-}
+};
+
+export default CustomInput;

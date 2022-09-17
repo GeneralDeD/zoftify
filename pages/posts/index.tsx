@@ -1,25 +1,25 @@
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import Container from '../../components/container';
-import CustomButton from '../../components/customComponents/customButton';
-import CustomPagination from '../../components/customComponents/customPagination';
-import CustomSearch from '../../components/customComponents/customSearch';
-import CustomSelect from '../../components/customComponents/customSelect';
-import CustomSwitcher from '../../components/customComponents/customSwitcher';
-import CustomTable from '../../components/customComponents/customTable';
-import CustomStatus from '../../components/customComponents/customStatus';
-import { wrapper } from '../../store/store';
-import st from './posts.module.scss';
-import { IPost } from '../../models/IPost';
-import { useState } from 'react';
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { setPostStatus } from '../../store/reducers/postsSlice';
-import Header from '../../components/header';
-import { useFilterData } from '../../hooks/filter';
+import { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
+import Container from "../../components/container";
+import CustomButton from "../../components/customComponents/customButton";
+import CustomPagination from "../../components/customComponents/customPagination";
+import CustomSearch from "../../components/customComponents/customSearch";
+import CustomSelect from "../../components/customComponents/customSelect";
+import CustomSwitcher from "../../components/customComponents/customSwitcher";
+import CustomTable from "../../components/customComponents/customTable";
+import CustomStatus from "../../components/customComponents/customStatus";
+import { wrapper } from "../../store/store";
+import st from "./posts.module.scss";
+import { IPost } from "../../models/IPost";
+import { useState } from "react";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { setPostStatus } from "../../store/reducers/postsSlice";
+import Header from "../../components/header";
+import { useFilterData } from "../../hooks/filter";
 TimeAgo.addDefaultLocale(en);
-const timeAgo = new TimeAgo('en-US');
+const timeAgo = new TimeAgo("en-US");
 
 export type ICounts = {
 	[key: string]: number;
@@ -37,7 +37,7 @@ export interface IAllData {
 	counts: ICounts;
 }
 
-export default function Posts({ status, search, page, limit }: IPosts) {
+const Posts: NextPage<IPosts> = ({ status, search, page, limit }) => {
 	const router = useRouter(),
 		dispatch = useAppDispatch(),
 		data = useAppSelector((state) => state.posts),
@@ -45,18 +45,18 @@ export default function Posts({ status, search, page, limit }: IPosts) {
 		[searchInput, setSearchInput] = useState(search),
 		switchers = [
 			{
-				id: '',
-				title: 'All statuses',
+				id: "",
+				title: "All statuses",
 				count: allData.counts.draft + allData.counts.published,
 			},
 			{
-				id: 'draft',
-				title: 'Draft',
+				id: "draft",
+				title: "Draft",
 				count: allData.counts.draft,
 			},
 			{
-				id: 'published',
-				title: 'Published',
+				id: "published",
+				title: "Published",
 				count: allData.counts.published,
 			},
 		],
@@ -86,13 +86,13 @@ export default function Posts({ status, search, page, limit }: IPosts) {
 						<CustomSearch
 							search={searchInput}
 							setSearch={setSearchInput}
-							handleChange={() => handleChange('search', searchInput)}
+							handleChange={() => handleChange("search", searchInput)}
 						/>
 						<CustomButton
 							width={163}
 							title="Create Post"
 							handleClick={() => {
-								router.push('/posts/create');
+								router.push("/posts/create");
 							}}
 						/>
 					</div>
@@ -103,7 +103,7 @@ export default function Posts({ status, search, page, limit }: IPosts) {
 								title={item.title}
 								count={item.count}
 								isActive={status === item.id}
-								handleChange={() => handleChange('status', item.id)}
+								handleChange={() => handleChange("status", item.id)}
 							/>
 						))}
 					</div>
@@ -141,35 +141,43 @@ export default function Posts({ status, search, page, limit }: IPosts) {
 							value={limit}
 							page={page}
 							limit={limit}
-							total={status ? allData.counts[status] : allData.counts.draft + allData.counts.published}
+							total={
+								status ? allData.counts[status] : allData.counts.draft + allData.counts.published
+							}
 							options={limits}
-							handleChange={(e) => handleChange('limit', `${e}`)}
+							handleChange={(e) => handleChange("limit", `${e}`)}
 						/>
 						<CustomPagination
 							current={page}
 							limit={limit}
-							total={status ? allData.counts[status] : allData.counts.draft + allData.counts.published}
-							handleChange={(e) => handleChange('page', `${e}`)}
+							total={
+								status ? allData.counts[status] : allData.counts.draft + allData.counts.published
+							}
+							handleChange={(e) => handleChange("page", `${e}`)}
 						/>
 					</div>
 				</div>
 			</Container>
 		</>
 	);
-}
+};
 
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
-	const { search, status, page = 1, limit = 5 } = ctx.query;
+export default Posts;
 
-	return {
-		props: {
-			status: status || '',
-			search: search || '',
-			page,
-			limit,
-		},
-	};
-});
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
+	(store) => async (ctx) => {
+		const { search, status, page = 1, limit = 5 } = ctx.query;
+
+		return {
+			props: {
+				status: status || "",
+				search: search || "",
+				page,
+				limit,
+			},
+		};
+	}
+);
 
 const objToQuery = (obj: any) => {
 	let str = [];
@@ -182,12 +190,12 @@ const objToQuery = (obj: any) => {
 					st.push(obj[p][j]);
 				}
 			}
-			str.push(st.join(','));
-		} else if (obj.hasOwnProperty(p) && obj[p]?.length && obj[p] !== 'Any') {
+			str.push(st.join(","));
+		} else if (obj.hasOwnProperty(p) && obj[p]?.length && obj[p] !== "Any") {
 			str.push(`${p}=${obj[p]}`);
-		} else if (typeof obj[p] == 'number') {
+		} else if (typeof obj[p] == "number") {
 			str.push(`${p}=${obj[p]}`);
 		}
 	}
-	return str.join('&');
+	return str.join("&");
 };

@@ -1,5 +1,5 @@
-import React from 'react';
-import st from './customButton.module.scss';
+import React, { FC } from "react";
+import st from "./customButton.module.scss";
 
 interface ICustomButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	title: string;
@@ -7,10 +7,17 @@ interface ICustomButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	handleClick?: () => void;
 }
 
-export default function CustomButton({ type, title, width, handleClick }: ICustomButton) {
+const CustomButton: FC<ICustomButton> = ({ type, title, width, handleClick }) => {
 	return (
-		<button type={type} className={st.customButton} style={{ width: `${width}px` }} onClick={handleClick}>
+		<button
+			type={type}
+			className={st.customButton}
+			style={{ width: `${width}px` }}
+			onClick={handleClick}
+		>
 			{title}
 		</button>
 	);
-}
+};
+
+export default CustomButton;
