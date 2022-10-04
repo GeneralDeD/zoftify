@@ -1,33 +1,33 @@
 {
-  "name": "777",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@reduxjs/toolkit": "^1.8.5",
-    "antd": "^4.22.8",
-    "javascript-time-ago": "^2.5.7",
-    "next": "^12.3.0",
-    "next-redux-wrapper": "^7.0.5",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-redux": "^8.0.2",
-    "sass": "^1.54.7"
-  },
-  "devDependencies": {
-    "@types/node": "18.7.14",
-    "@types/react": "18.0.18",
-    "@types/react-dom": "18.0.6",
-    "autoprefixer": "^10.4.12",
-    "eslint": "8.23.0",
-    "eslint-config-next": "12.2.5",
-    "postcss": "^8.4.17",
-    "tailwindcss": "^3.1.8",
-    "typescript": "4.8.2"
-  }
+	"name": "zoftify-test-app",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@reduxjs/toolkit": "^1.8.5",
+		"antd": "^4.22.8",
+		"javascript-time-ago": "^2.5.7",
+		"next": "^12.3.0",
+		"next-redux-wrapper": "^7.0.5",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"react-redux": "^8.0.2",
+		"sass": "^1.54.7"
+	},
+	"devDependencies": {
+		"@types/node": "18.7.14",
+		"@types/react": "18.0.18",
+		"@types/react-dom": "18.0.6",
+		"autoprefixer": "^10.4.12",
+		"eslint": "8.23.0",
+		"eslint-config-next": "12.2.5",
+		"postcss": "^8.4.17",
+		"tailwindcss": "^3.1.8",
+		"typescript": "4.8.2"
+	}
 }
