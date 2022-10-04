@@ -1,42 +1,15 @@
-$dark_blue: #177eff;
-$sec_blue: #f5f6fa;
-$light_blue: #70aefd;
-$icon_tert: #b2c2df;
-$white: #fff;
-$black: #111;
-
 .customSwitcher {
-	width: fit-content;
-	min-width: 144px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-right: 8px;
-	color: $black;
-	background-color: $sec_blue;
-	padding: 10px 12px;
-	border-radius: 8px;
-	cursor: pointer;
+	@apply w-fit min-w-[144px] flex items-center justify-between mr-2 text-text-primary py-[10px] px-3 rounded-lg cursor-pointer;
 
 	&__count {
-		color: $white;
-		padding: 4px 8px;
-		border-radius: 46px;
-		background-color: $icon_tert;
+		@apply text-white py-1 px-2 rounded-full bg-icon-tertiary;
 	}
 
 	&__active {
-		color: $white;
-		background-color: $dark_blue;
+		@apply text-white bg-primary-blue;
 
 		.customSwitcher__count {
-			background-color: $light_blue;
+			@apply bg-primary-blue-light;
 		}
-	}
-
-	@media (max-width: 660px) {
-		width: 48%;
-		margin-bottom: 8px;
-		margin-right: 0;
 	}
 }

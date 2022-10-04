@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { LINKS } from "../../../assets/links";
 import Container from "../../../components/container";
 import CustomButton from "../../../components/customComponents/customButton";
 import CustomDatePicker from "../../../components/customComponents/customDatePicker";
@@ -27,7 +28,7 @@ const CreatePost: NextPage = () => {
 			date: false,
 			status: false,
 		},
-		[isErr, setIsErr] = useState(defState);
+		[isError, setIsError] = useState(defState);
 
 	const handleChange = (key: string, value: string) => {
 		setData((prev) => ({ ...prev, [key]: value }));
@@ -37,17 +38,17 @@ const CreatePost: NextPage = () => {
 		e.preventDefault();
 		if (data.status && data.date) {
 			dispatch(createPost(data));
-			router.push("/posts");
+			router.push(LINKS.POSTS);
 		} else if (!data.status) {
-			setIsErr({ ...defState, status: true });
+			setIsError({ ...defState, status: true });
 		} else {
-			setIsErr({ ...defState, date: true });
+			setIsError({ ...defState, date: true });
 		}
 	};
 
 	return (
 		<>
-			<Header title="New Post" hasBackBtn={true} link="/posts" />
+			<Header title="New Post" hasBackBtn={true} link={LINKS.POSTS} />
 			<Container>
 				<div className={st.createPost}>
 					<p>Post information</p>
@@ -56,14 +57,14 @@ const CreatePost: NextPage = () => {
 							placeholder="Title"
 							value={data.title}
 							setValue={(e) => handleChange("title", e)}
-							isErr={isErr.title}
+							isError={isError.title}
 						/>
 						<CustomFormStatusSelect
-							isErr={isErr.status}
+							isError={isError.status}
 							handleChange={(e) => handleChange("status", e)}
 						/>
 						<CustomDatePicker
-							isErr={isErr.date}
+							isError={isError.date}
 							handleChange={(e) => {
 								if ({ ...e }?._d)
 									handleChange("date", `${new Date(Date.parse({ ...e }?._d)).toISOString()}`);

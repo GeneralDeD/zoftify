@@ -1,20 +1,26 @@
-import '../styles/globals.scss';
-import type { AppProps } from 'next/app';
-import { Provider } from 'react-redux';
-import { store, wrapper } from '../store/store';
-import Header from '../components/header';
-import Sidebar from '../components/sidebar';
+import "../styles/globals.scss";
+import type { AppProps } from "next/app";
+import { Provider } from "react-redux";
+import { store, wrapper } from "../store/store";
+import Sidebar from "../components/sidebar";
+import Head from "next/head";
 
 function App({ Component, pageProps }: AppProps) {
 	return (
-		<Provider store={store}>
-			<div className="app">
-				<Sidebar />
-				<div className="content">
-					<Component {...pageProps} />
+		<>
+			<Head>
+				<title>Zoftify Test App</title>
+				<link rel="icon" type="image/svg" href="/zoftify.svg" />
+			</Head>
+			<Provider store={store}>
+				<div className="app">
+					<Sidebar />
+					<div className="content">
+						<Component {...pageProps} />
+					</div>
 				</div>
-			</div>
-		</Provider>
+			</Provider>
+		</>
 	);
 }
 

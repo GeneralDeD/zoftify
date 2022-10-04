@@ -2,28 +2,19 @@
 	&__header,
 	&__switchers,
 	&__footer {
-		display: flex;
-		align-items: center;
-		padding: 0 24px;
-		flex-wrap: wrap;
+		@apply flex items-center px-6 flex-wrap;
 	}
 
 	&__header,
 	&__footer {
-		justify-content: space-between;
+		@apply justify-between;
 	}
 
 	&__header {
-		margin-bottom: 12px;
+		@apply mb-3;
 	}
 
 	&__footer {
-		margin-top: 40px;
-	}
-
-	@media (max-width: 660px) {
-		&__switchers {
-			justify-content: space-between;
-		}
+		@apply mt-10;
 	}
 }

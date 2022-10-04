@@ -3,20 +3,13 @@ $dark_blue: #177eff;
 $danger: #f00;
 
 .customInput {
-	width: 356px;
-	height: 38px;
-	margin-bottom: 8px;
-	background-color: $sec_blue;
-	border-radius: 8px;
-	padding: 0 12px;
-	border: 1px solid $sec_blue;
+	@apply w-[356px] h-[38px] mb-2 bg-background-secondary rounded-lg px-3 border border-background-secondary;
 
 	&:focus {
-		outline: none;
-		box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+		@apply outline-none shadow-md;
 	}
 
-	&__isErr {
-		border: 1px solid $danger;
+	&__isError {
+		@apply border border-red-600;
 	}
 }

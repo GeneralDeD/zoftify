@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { FC } from "react";
-import st from "./backBtn.module.scss";
+import st from "./backButton.module.scss";
 
 interface IBackBtn {
 	link: string;

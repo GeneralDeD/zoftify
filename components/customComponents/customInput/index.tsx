@@ -2,16 +2,16 @@ import { FC } from "react";
 import st from "./customInput.module.scss";
 
 interface ICustomInput {
-	isErr: boolean;
+	isError: boolean;
 	placeholder: string;
 	value: string;
 	setValue: (e: string) => void;
 }
 
-const CustomInput: FC<ICustomInput> = ({ isErr, placeholder, value, setValue }) => {
+const CustomInput: FC<ICustomInput> = ({ isError, placeholder, value, setValue }) => {
 	return (
 		<input
-			className={`${st.customInput} ${isErr && st.customInput__isErr}`}
+			className={`${st.customInput} ${isError && st.customInput__isError}`}
 			placeholder={placeholder}
 			value={value}
 			onChange={(e) => setValue(e.target.value)}

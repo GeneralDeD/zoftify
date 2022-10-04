@@ -12,12 +12,15 @@ import { wrapper } from "../../store/store";
 import st from "./posts.module.scss";
 import { IPost } from "../../models/IPost";
 import { useState } from "react";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { setPostStatus } from "../../store/reducers/postsSlice";
 import Header from "../../components/header";
 import { useFilterData } from "../../hooks/filter";
+import { ObjectToQuery } from "../../utils/objectToQuery";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
+import { LINKS } from "../../assets/links";
+
 TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
@@ -25,7 +28,7 @@ export type ICounts = {
 	[key: string]: number;
 };
 
-interface IPosts {
+interface IPostsPage {
 	status: string;
 	search: string;
 	page: number;
@@ -37,7 +40,7 @@ export interface IAllData {
 	counts: ICounts;
 }
 
-const Posts: NextPage<IPosts> = ({ status, search, page, limit }) => {
+const Posts: NextPage<IPostsPage> = ({ status, search, page, limit }) => {
 	const router = useRouter(),
 		dispatch = useAppDispatch(),
 		data = useAppSelector((state) => state.posts),
@@ -72,7 +75,7 @@ const Posts: NextPage<IPosts> = ({ status, search, page, limit }) => {
 			query[key] = value;
 		}
 
-		const routerQuery = objToQuery(query);
+		const routerQuery = ObjectToQuery(query);
 
 		router.push(`${router.pathname}${routerQuery && `?${routerQuery}`}`);
 	};
@@ -92,7 +95,7 @@ const Posts: NextPage<IPosts> = ({ status, search, page, limit }) => {
 							width={163}
 							title="Create Post"
 							handleClick={() => {
-								router.push("/posts/create");
+								router.push(LINKS.CREATEPOST);
 							}}
 						/>
 					</div>
@@ -165,7 +168,7 @@ const Posts: NextPage<IPosts> = ({ status, search, page, limit }) => {
 export default Posts;
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-	(store) => async (ctx) => {
+	() => async (ctx) => {
 		const { search, status, page = 1, limit = 5 } = ctx.query;
 
 		return {
@@ -178,24 +181,3 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
 		};
 	}
 );
-
-const objToQuery = (obj: any) => {
-	let str = [];
-	for (let p in obj) {
-		if (Array.isArray(obj[p])) {
-			const st = [];
-			st.push(`${p}=${obj[p][0]}`);
-			if (obj[p]?.length > 1) {
-				for (let j = 1; j < obj[p].length; j++) {
-					st.push(obj[p][j]);
-				}
-			}
-			str.push(st.join(","));
-		} else if (obj.hasOwnProperty(p) && obj[p]?.length && obj[p] !== "Any") {
-			str.push(`${p}=${obj[p]}`);
-		} else if (typeof obj[p] == "number") {
-			str.push(`${p}=${obj[p]}`);
-		}
-	}
-	return str.join("&");
-};

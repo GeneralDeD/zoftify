@@ -2,12 +2,12 @@ import { DatePicker } from "antd";
 import React, { FC } from "react";
 
 interface ICustomDatePicker {
-	isErr: boolean;
+	isError: boolean;
 	handleChange: (e: any) => void;
 }
 
-const CustomDatePicker: FC<ICustomDatePicker> = ({ isErr, handleChange }) => (
-	<div className={`customDatePicker ${isErr && "customDatePicker__isErr"}`}>
+const CustomDatePicker: FC<ICustomDatePicker> = ({ isError, handleChange }) => (
+	<div className={`customDatePicker ${isError && "customDatePicker__isError"}`}>
 		<DatePicker placeholder="Time" showTime onChange={(e) => handleChange(e)} />
 	</div>
 );

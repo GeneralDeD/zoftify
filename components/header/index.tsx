@@ -1,5 +1,5 @@
 import { FC } from "react";
-import BackBtn from "../backBtn";
+import BackBtn from "../backButton";
 import st from "./header.module.scss";
 
 interface IHeader {

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FC } from "react";
+import { LINKS } from "../../assets/links";
 import st from "./sidebar.module.scss";
 
 const logo = (
@@ -44,7 +45,7 @@ const logo = (
 	menu = [
 		{
 			title: "Posts",
-			link: "/posts",
+			link: LINKS.POSTS,
 			svg: (
 				<svg
 					width="24"

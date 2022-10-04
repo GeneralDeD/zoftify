@@ -3,13 +3,13 @@ import { FC } from "react";
 const { Option } = Select;
 
 interface ICustomFormStatusSelect {
-	isErr: boolean;
+	isError: boolean;
 	handleChange: (e: string) => void;
 }
 
-const CustomFormStatusSelect: FC<ICustomFormStatusSelect> = ({ isErr, handleChange }) => {
+const CustomFormStatusSelect: FC<ICustomFormStatusSelect> = ({ isError, handleChange }) => {
 	return (
-		<div className={`customFormStatusSelect ${isErr && "customFormStatusSelect__isErr"}`}>
+		<div className={`customFormStatusSelect ${isError && "customFormStatusSelect__isError"}`}>
 			<Select
 				placeholder="Status"
 				defaultValue={"Status"}

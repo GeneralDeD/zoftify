@@ -1,44 +1,25 @@
-$white: #fff;
-$gray_line: #ebeef6;
-$sec_blue: #f5f6fa;
-$blue: #d7defa;
-
 .sidebar {
-	width: 208px;
-	min-height: 100vh;
-	background-color: $white;
+	@apply w-[208px] min-h-screen bg-white;
 
 	&__logo {
-		height: 48px;
-		padding: 15px 24px;
-		border-bottom: 1px solid $gray_line;
+		@apply h-12 py-4 px-6 border-b border-gray-line;
 	}
 
 	&__links {
-		padding: 32px 12px;
-		margin-bottom: 0;
-		list-style: none;
+		@apply py-8 px-3;
 
 		&__item {
 			a {
-				padding: 8px 16px;
-				border-radius: 8px;
-				background-color: $sec_blue;
-				display: flex;
-				align-items: center;
+				@apply py-2 px-4 rounded-lg bg-background-secondary flex items-center transition-colors duration-300;
 
 				span {
-					margin-right: 8px;
+					@apply mr-2;
 				}
 
 				&:hover {
-					background-color: $blue;
+					@apply bg-primary-blue-light text-white;
 				}
 			}
 		}
-	}
-
-	@media (max-width: 990px) {
-		width: 150px;
 	}
 }

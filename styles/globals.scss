@@ -1,51 +1,18 @@
-@import '~antd/dist/antd.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "~antd/dist/antd.css";
 
-$white: #fff;
-$black: #111;
-$light_gray: #f5f5f5;
-$gray_line: #ebeef6;
-$sec_blue: #f5f6fa;
-$blue: #d7defa;
-$dark_blue: #177eff;
-$placeholder: #667281;
-$danger: #f00;
-
-html,
 body {
-	padding: 0;
-	margin: 0;
-	background-color: $light_gray;
-}
-
-a {
-	color: inherit;
-	text-decoration: none;
-
-	&:hover {
-		color: inherit;
-	}
+	@apply bg-background-color;
 }
 
 * {
-	box-sizing: border-box;
-	font-family: Arial, sans-serif;
-	font-size: 14px;
-	line-height: 16px;
-	transition: all 0.3s ease;
-}
-
-input {
-	&::placeholder {
-		color: $placeholder !important;
-	}
-}
-
-button {
-	border: 0;
+	@apply leading-4;
 }
 
 .app {
-	display: flex;
+	@apply flex;
 
 	.content {
 		width: calc(100% - 208px);
@@ -57,36 +24,30 @@ button {
 		.ant-input-affix-wrapper,
 		.ant-btn,
 		input {
-			background-color: $sec_blue;
+			@apply bg-background-secondary;
 		}
 
 		input::placeholder {
-			color: $placeholder;
+			@apply text-color-secondary;
 		}
 
 		.ant-input-group-addon,
 		.ant-input-affix-wrapper,
 		button {
-			height: 36px;
+			@apply h-9;
 		}
 
 		.ant-input-affix-wrapper {
-			border-top-left-radius: 8px !important;
-			border-bottom-left-radius: 8px !important;
-			border: none;
-			width: 380px;
+			@apply rounded-l-lg border-0 w-96 #{!important};
 		}
 
 		.ant-input-group-addon {
-			background-color: transparent;
+			@apply bg-transparent;
 			.ant-input-search-button {
-				border: none;
-				border-top-right-radius: 8px !important;
-				border-bottom-right-radius: 8px !important;
+				@apply border-0 rounded-r-lg #{!important};
 
 				svg {
-					width: 15px;
-					height: 15px;
+					@apply w-[15px] h-[15px] stroke-2 fill-color-secondary;
 				}
 			}
 		}
@@ -95,151 +56,95 @@ button {
 
 .customPagination {
 	.ant-pagination {
-		display: flex;
-		align-items: center;
+		@apply flex items-center;
 
 		button {
-			background-color: $sec_blue !important;
-			border: none;
-			border-radius: 4px;
+			@apply flex items-center justify-center bg-background-secondary border-0 rounded-4;
 		}
 
 		.ant-pagination-item {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 32px;
-			height: 32px;
-			border: none;
-			border-radius: 4px;
+			@apply flex items-center justify-center w-8 h-8 border-0 rounded-4;
 
 			a {
-				color: $placeholder;
+				@apply text-color-secondary font-normal;
 			}
 		}
 
 		.ant-pagination-item-active {
-			background-color: $dark_blue;
+			@apply bg-primary-blue;
 
 			a {
-				width: 32px;
-				height: 32px;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				color: $white;
+				@apply text-white;
 			}
 		}
 	}
 }
 
 .customSelect {
-	display: flex;
-	align-items: center;
+	@apply flex items-center;
 
 	.ant-select {
-		width: 65px;
-		margin-right: 12px;
+		@apply w-[65px] mr-3;
 
 		.ant-select-selector {
-			height: 36px;
-			border-radius: 4px;
-			padding: 0 12px;
-			background-color: $sec_blue;
-			border: none;
+			@apply h-9 rounded-4 px-3 bg-background-secondary border-0;
 
 			span {
-				color: $black;
-				display: flex;
-				align-items: center;
+				@apply text-black flex items-center;
 			}
 		}
 	}
 
 	div {
-		font-size: 13px;
-		color: $placeholder;
+		@apply text-[13px] text-color-secondary;
 	}
 }
 
 .customStatus,
 .customFormStatusSelect {
 	.ant-select {
-		width: 108px;
+		@apply w-[108px];
 
 		.ant-select-selector {
-			border: none;
-			padding: 0;
-			padding-left: 10px;
+			@apply border-0 p-0 pl-[10px];
 		}
 	}
 }
 
 .customFormStatusSelect {
-	margin-bottom: 8px;
+	@apply mb-2;
 
 	.ant-select {
-		width: 356px;
+		@apply w-[356px];
 
 		.ant-select-selector {
-			height: 38px;
-			border: 1px solid $sec_blue;
-			background-color: $sec_blue;
-			border-radius: 8px;
+			@apply h-[38px] border border-background-secondary bg-background-secondary rounded-lg;
 
-			span[title='Status'] {
-				color: $placeholder;
+			span[title="Status"] {
+				@apply text-color-secondary;
 			}
 		}
 	}
 
-	&__isErr {
+	&__isError {
 		.ant-select {
 			.ant-select-selector {
-				border: 1px solid $danger;
+				@apply border-red-600;
 			}
 		}
 	}
 }
 
 .customDatePicker {
-	margin-bottom: 42px;
+	@apply mb-[42px];
 
 	.ant-picker {
-		width: 356px;
-		height: 38px;
-		background-color: $sec_blue;
-		border: 1px solid $sec_blue;
-		border-radius: 8px;
+		@apply w-[356px] h-[38px] border border-background-secondary bg-background-secondary rounded-lg;
 	}
 
-	&__isErr {
+	&__isError {
 		.ant-picker {
-			border: 1px solid $danger;
-		}
-	}
-}
-
-@media (max-width: 990px) {
-	.app > .content {
-		width: calc(100% - 150px);
-	}
-}
-
-@media (max-width: 880px) {
-	.customSearch,
-	.customSelect,
-	.customPagination {
-		margin-bottom: 8px;
-	}
-}
-
-@media (max-width: 660px) {
-	.customSearch {
-		width: 100%;
-
-		.ant-input-search .ant-input-affix-wrapper {
-			width: 100%;
+			@apply border-red-600;
 		}
 	}
 }

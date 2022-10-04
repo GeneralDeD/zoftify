@@ -1,0 +1,7 @@
+.backBtn {
+	@apply w-7 h-7 border border-gray-line rounded-4 flex items-center justify-center cursor-pointer mr-[18px];
+
+	&:hover {
+		@apply bg-background-secondary;
+	}
+}
